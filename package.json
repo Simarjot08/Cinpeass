@@ -1,0 +1,41 @@
+{
+  "name": "quickseat",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@stripe/stripe-js": "^7.4.0",
+    "axios": "^1.10.0",
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.7.0",
+    "gsap": "^3.13.0",
+    "jsonwebtoken": "^9.0.2",
+    "lottie-react": "^2.4.1",
+    "lucide-react": "^0.525.0",
+    "mongoose": "^8.16.1",
+    "next": "15.3.5",
+    "next-video": "^2.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
+    "react-player": "^3.1.0",
+    "react-youtube": "^10.1.0",
+    "stripe": "^18.3.0",
+    "svix": "^1.69.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.5",
+    "tailwindcss": "^4"
+  }
+}
