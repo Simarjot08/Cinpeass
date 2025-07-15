@@ -640,16 +640,21 @@ const handleFavouriteToggle = async () => {
         <p className="font-bold pt-3 pb-3 text-3xl">Your Favourite Cast</p>
         <div className="overflow-x-auto no-scrollbar mt-8 pb-4">
           <div className="flex items-center gap-4 w-max px-4 no-scrollbar">
-            {movie.casts?.slice(0, 12).map((cast, i) => (
-              <div key={i} className="flex flex-col items-center text-center">
-                <img
-                  src={cast.profile_path ? `${IMAGE_BASE}${cast.profile_path}` : ''}
-                  alt={cast.name}
-                  className="rounded-full h-20 aspect-square object-cover border-2 mt-2 border-white hover:scale-[1.1] hover:shadow-sm hover:shadow-white transition-all ease"
-                />
-                <p className="mt-3 text-sm">{cast.name}</p>
-              </div>
-            ))}
+  
+            {movie.casts
+        ?.slice(0, 12)
+         .filter(cast => cast.profile_path) // ✅ Filter only those with images
+          .map((cast, i) => (
+    <div key={i} className="flex flex-col items-center text-center">
+      <img
+        src={`${IMAGE_BASE}${cast.profile_path}`}
+        alt={cast.name}
+        className="rounded-full h-20 aspect-square object-cover border-2 mt-2 border-white hover:scale-[1.1] hover:shadow-sm hover:shadow-white transition-all ease"
+      />
+      <p className="mt-3 text-sm">{cast.name}</p>
+    </div>
+))}
+
           </div>
         </div>
       </div>

@@ -72,3 +72,24 @@ input::-webkit-inner-spin-button{
 ::-webkit-calendar-picker-indicator{
   filter:invert(1);
 }
+/* #nprogress .bar {
+  background:green;
+  height: 20px;
+}
+#nprogress .peg {
+  box-shadow: 0 0 20px green, 0 0 1px green;
+} */
+
+#nprogress .bar {
+  background:green !important;
+  height:5px !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px green, 0 0 5px green !important;
+}
+
+/* Optional: Hide the spinner completely */
+#nprogress .spinner {
+  display: none !important;
+}

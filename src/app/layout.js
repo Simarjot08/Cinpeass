@@ -1,5 +1,7 @@
 
 import './globals.css';
+import ProgressBar from './component/atom/progressBar';
+
 // import { AppProvider } from '@/context/appContext';
 import LayoutWrapper from './component/atom/layoutwrapper';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -16,9 +18,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {/* <AppProvider> */}
-        <LayoutWrapper>{children}</LayoutWrapper>
-        {/* </AppProvider> */}
+          <ProgressBar />
+      
+        <LayoutWrapper>
+         
+           {children}</LayoutWrapper>
+     
       </body>
     </html>
   );
