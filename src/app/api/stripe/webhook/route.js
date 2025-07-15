@@ -1,7 +1,10 @@
-import { buffer } from "micro";
 import Stripe from "stripe";
 import { connectDB } from "@/app/lib/config/db";
 import Booking from "@/app/lib/models/bookingModel";
+
+export const config = {
+  runtime: 'nodejs', // ✅ Required to use Buffer and Stripe SDK
+};
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -38,3 +41,4 @@ export async function POST(req) {
 
   return new Response(JSON.stringify({ received: true }), { status: 200 });
 }
+
