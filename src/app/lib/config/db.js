@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const MONGOoDB_URI = process.env.MONGODB_URI;
 
 if (!MONGOoDB_URI) {

@@ -7,6 +7,7 @@
   --color-primary:#F84565;
   --color-primary-dull:#D63854;
   --color-backdetail:oklch(21% 0.006 285.885);
+  --color-chat:oklch(37.1% 0 0)
 }
 
 
@@ -93,3 +94,17 @@ input::-webkit-inner-spin-button{
 #nprogress .spinner {
   display: none !important;
 }
+  .animate-fade-in {
+          animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
