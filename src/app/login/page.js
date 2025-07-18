@@ -64,7 +64,11 @@ function LoginPageTemplate() {
 
         <button onClick={handleGoogleSignIn} className='text-white px-10 py-2 rounded-lg border-white border-2 hover:bg-green-700 transition-all ease'>Sign in with Google</button>
     </div>
-          <p className="text-gray-400">Don't have account ? <Link className="text-blue-500" href="./signup">Sign Up</Link> </p>
+          {/* <p className="text-gray-400">Don't have account ? <Link className="text-blue-500" href="./signup">Sign Up</Link> </p> */}
+          <p className="text-gray-400">
+  {`Don't have account ? `}<Link className="text-blue-500" href="./signup">Sign Up</Link>
+</p>
+
      </div>
      </div>
     </div>

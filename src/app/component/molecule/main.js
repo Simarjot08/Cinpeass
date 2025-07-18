@@ -27,7 +27,9 @@ import Banner from "./banner";
 import Feature from "./feature";
 import Trailer from "./trailer";
 export default async function Home() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/getshows`);
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/getshows`);
+  const res = await fetch(`/api/auth/getshows`, { cache: "no-store" });
+
   const data = await res.json();
 
   return (
