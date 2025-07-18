@@ -7,7 +7,7 @@ import Loading from '@/app/component/atom/loading';
 import Title from '@/app/component/atom/admin/title';
 import { dateFormat } from '@/app/lib/dateFormat/dateFormat';
 
-function page() {
+function Page() {
    const[shows,setShows]=useState([]);
    const[loading,setLoading]=useState(true);
 
@@ -79,4 +79,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

@@ -5,7 +5,7 @@ import Loading from '@/app/component/atom/loading';
 import { dummyBookingData } from '../../../../public/data/assets';
 import { dateFormat } from '@/app/lib/dateFormat/dateFormat';
 
-function page() {
+function Page() {
   const[bookings,setBookings]=useState([]);
   const[isLoading,setIsLoading]=useState(true);
 
@@ -86,4 +86,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

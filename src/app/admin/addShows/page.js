@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 
 
 
-function page() {
+function Page() {
   const [nowPlayingMovies,setNowPlayingMovies]=useState([]);
   const[selectedMovie,setSelectedMovie]=useState(null);
   const[dateTimeSelector,setDateTimeSelection]=useState({});
@@ -215,4 +215,4 @@ const handleAddShow = async () => {
   )
 }
 
-export default page
+export default Page
