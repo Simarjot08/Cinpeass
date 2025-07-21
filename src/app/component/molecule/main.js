@@ -1,24 +1,4 @@
-// import React from "react";
-// import Herosection from "./herosection";
-// import Banner from "./banner";
-// import Feature from "./feature";
-// import Trailer from "./trailer";
 
-
-
-// const Main = () => {
-//   return (
-//  <div className="overflow-x-hidden">
-//  <Herosection/>
-//  <Banner/>
-//  <Feature/>
-//  <Trailer/>
- 
-//  </div>
-//   )
-// }
-
-// export default Main
 
 
 import GeminiSuggest from "./geminiSuggest";
@@ -27,10 +7,7 @@ import Banner from "./banner";
 import Feature from "./feature";
 import Trailer from "./trailer";
 export default async function Home() {
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/getshows`);
-  // const res = await fetch(`/api/auth/getshows`, { cache: "no-store" });
-//   const baseURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-// const res = await fetch(`${baseURL}/api/auth/getshows`);
+  
 const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/getshows`);
 
   const data = await res.json();

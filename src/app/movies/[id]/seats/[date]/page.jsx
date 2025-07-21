@@ -154,24 +154,6 @@ function SeatLayout() {
 
   const groupRows = [["A", "B"], ["C", "D"], ["E", "F"], ["G", "H"], ["I", "J"]]
 
-  // const getShow = async () => {
-  //   try {
-  //     const res = await fetch(`/api/auth/getshows/${id}`)
-  //     const data = await res.json()
-
-  //     if (data.success && data.dateTime[date]) {
-  //       setShow({
-  //         movie: data.movie,
-  //         dateTime: data.dateTime,
-  //       })
-  //     } else {
-  //       toast.error("No shows available for selected date")
-  //     }
-  //   } catch (error) {
-  //     toast.error("Failed to load show data")
-  //     console.error("API Error:", error.message)
-  //   }
-  // }
 
   const getShow = async () => {
   try {
@@ -245,9 +227,44 @@ function SeatLayout() {
     )
   }
 
-  const handleBooking = async () => {
+//   const handleBooking = async () => {
+//   if (!selectedTime || selectedSeats.length === 0) {
+//     return toast.error("Please select show time and at least one seat")
+//   }
+
+//   try {
+//     const res = await fetch('/api/booking/create', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({
+//         showId: selectedTime.showId,
+//         selectedSeats,
+//       }),
+//     });
+
+//     const data = await res.json();
+
+//     if (!res.ok) {
+//       if (res.status === 401 || data.message === 'No token provided') {
+//         return toast.error("Please log in to book seats");
+//       }
+//       if (data.message?.includes("already booked")) {
+//         return toast.error("Some selected seats are already booked");
+//       }
+//       return toast.error(data.message || "Booking failed");
+//     }
+
+//     toast.success("Booking successful!");
+//     router.push('/booking');
+//   } catch (error) {
+//     console.error("Booking error:", error.message);
+//     toast.error("Something went wrong during booking");
+//   }
+// };
+
+const handleBooking = async () => {
   if (!selectedTime || selectedSeats.length === 0) {
-    return toast.error("Please select show time and at least one seat")
+    return toast.error("Please select show time and at least one seat");
   }
 
   try {
@@ -272,41 +289,19 @@ function SeatLayout() {
       return toast.error(data.message || "Booking failed");
     }
 
-    toast.success("Booking successful!");
-    router.push('/booking');
+    // ✅ Redirect to Stripe Checkout
+    if (data.success && data.url) {
+      window.location.href = data.url;
+    } else {
+      toast.error("Failed to initiate payment session");
+    }
   } catch (error) {
     console.error("Booking error:", error.message);
     toast.error("Something went wrong during booking");
   }
 };
 
-  // const handleBooking = async () => {
-  //   if (!selectedTime || selectedSeats.length === 0) {
-  //     return toast.error("Please select time and seats")
-  //   }
 
-  //   try {
-  //     const res = await fetch('/api/booking/create', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({
-  //         showId: selectedTime.showId,
-  //         selectedSeats,
-  //       }),
-  //     })
-
-  //     const data = await res.json()
-  //     if (data.success) {
-  //       toast.success("Booking successful!")
-  //       router.push('/mybookings')
-  //     } else {
-  //       toast.error(data.message || "Booking failed")
-  //     }
-  //   } catch (error) {
-  //     console.error("Booking error:", error.message)
-  //     toast.error("Server error during booking")
-  //   }
-  // }
 
   const renderSeats = (row, count = 9) => (
     <div key={row} className='flex gap-2 mt-2'>

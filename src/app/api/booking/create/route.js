@@ -1,88 +1,124 @@
 
+// // app/api/booking/createbooking/route.js
+// import { NextResponse } from 'next/server';
+// import { connectDB } from '@/app/lib/config/db';
+// import Show from '@/app/lib/models/showmodel';
+// import Booking from '@/app/lib/models/bookingModel';
+// import { cookies } from 'next/headers';
+// import Movie from '@/app/lib/models/movieModel';
+// import jwt from 'jsonwebtoken';
+// import Stripe from 'stripe';
 
-// export const createBooking=async(req,res)=>{
-//     try{
-//         const{userId}=req.auth();
-//         const{showId,selectedSeats}=req.body;
-//         const{origin}=req.headers;
-//         //check if the seat is available for the selected show  
-        
-//         const  isAvailable=await checkSeatsAvailability(showId,selectedSeats)
+// const JWT_SECRET = process.env.JWT_SECRET;
 
-//         if(!isAvailable){
-//             return res.json({success:false,message:"Selected seats are not available"})
-//         }
-//         //get the showdetails
+// // ✅ Token verifier middleware from cookies
+// const verifyTokenFromCookie = () => {
+//   const cookieStore = cookies();
+//   const token = cookieStore.get('accessToken')?.value;
 
-//         const showData=await Show.findById(showId).populate('movie');
+//   if (!token) {
+//     throw new Error('No token provided');
+//   }
 
-//         //create a new 
-//         const booking=await Booking.create({
-//             user:userId,
-//             show:showId,
-//             amount:showData.showPrice*selectedSeats.length,
-//             bookedSeats:selectedSeats
-//         })
-//         selectedSeats.map((seat)=>{
-//          showData.occupiedSeats[seat]=userId ;
+//   const decoded = jwt.verify(token, JWT_SECRET);
+//   return decoded.userId; // or decoded.id
+// };
 
-//         })
-//        showData.markModified('occupiedSeats');
-//        await  showData.save();
+// export async function POST(req) {
+//   await connectDB();
 
-//        //stripe gateway initialize
+//   try {
+//     // ✅ Get userId from accessToken stored in HTTP-only cookie
+//     const userId =  await verifyTokenFromCookie();
 
-//        res.json({success:true,message:'Booked Successfully'})
+//     const body = await req.json();
+//     const { showId, selectedSeats } = body;
 
-//     }catch(error){
-// console.log(error.message);
-// res.json({success:false,message:error.message})
-        
+//     // ✅ Fetch the show
+  
+//     const showData = await Show.findById(showId).populate('movie');
+
+    
+
+//     // ✅ Check if any of the selected seats are already booked
+//     const isAnySeatTaken = selectedSeats.some((seat) => showData.occupiedSeats[seat]);
+//     if (isAnySeatTaken) {
+//       return NextResponse.json({
+//         success: false,
+//         message: 'Some selected seats are already booked',
+//       });
 //     }
+
+//     // ✅ Create a new booking
+//     const booking = await Booking.create({
+//       user: userId,
+//       show: showId,
+//       amount: showData.showPrice * selectedSeats.length,
+//       bookedSeats: selectedSeats,
+//     });
+
+//     // ✅ Mark seats as booked by user
+//     selectedSeats.forEach((seat) => {
+//       showData.occupiedSeats[seat] = userId;
+//     });
+
+//     showData.markModified('occupiedSeats');
+//     await showData.save();
+
+
+//     //stripe gateway initialise
+  
+
+
+//     return NextResponse.json({
+//       success: true,
+//       message: 'Booked successfully',
+//       booking,
+//     });
+//   } catch (error) {
+//     console.error('Booking error:', error.message);
+//     return NextResponse.json(
+//       { success: false, message: error.message || 'Internal server error' },
+//       { status: 500 }
+//     );
+//   }
 // }
 
-// app/api/booking/createbooking/route.js
+
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/app/lib/config/db';
 import Show from '@/app/lib/models/showmodel';
 import Booking from '@/app/lib/models/bookingModel';
 import { cookies } from 'next/headers';
-import Movie from '@/app/lib/models/movieModel';
 import jwt from 'jsonwebtoken';
 import Stripe from 'stripe';
 
 const JWT_SECRET = process.env.JWT_SECRET;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// ✅ Token verifier middleware from cookies
-const verifyTokenFromCookie = () => {
+// ✅ Extract userId from JWT cookie (async because cookies() is async)
+const verifyTokenFromCookie = async () => {
   const cookieStore = cookies();
   const token = cookieStore.get('accessToken')?.value;
-
-  if (!token) {
-    throw new Error('No token provided');
-  }
+  if (!token) throw new Error('No token provided');
 
   const decoded = jwt.verify(token, JWT_SECRET);
-  return decoded.userId; // or decoded.id
+  return decoded.userId;
 };
 
 export async function POST(req) {
   await connectDB();
 
   try {
-    // ✅ Get userId from accessToken stored in HTTP-only cookie
-    const userId =  await verifyTokenFromCookie();
-
+    const userId = await verifyTokenFromCookie();
     const body = await req.json();
     const { showId, selectedSeats } = body;
+    const origin = req.headers.get('origin');
 
-    // ✅ Fetch the show
-  
     const showData = await Show.findById(showId).populate('movie');
+    if (!showData) throw new Error('Show not found');
 
-    
-
-    // ✅ Check if any of the selected seats are already booked
+    // ✅ Check seat availability
     const isAnySeatTaken = selectedSeats.some((seat) => showData.occupiedSeats[seat]);
     if (isAnySeatTaken) {
       return NextResponse.json({
@@ -91,31 +127,58 @@ export async function POST(req) {
       });
     }
 
-    // ✅ Create a new booking
+    // ✅ Calculate total amount
+    const amount = showData.showPrice * selectedSeats.length;
+
+    // ✅ Create booking with status: 'pending'
     const booking = await Booking.create({
       user: userId,
       show: showId,
-      amount: showData.showPrice * selectedSeats.length,
+      amount,
       bookedSeats: selectedSeats,
+      status: 'pending',
     });
 
-    // ✅ Mark seats as booked by user
+    // ✅ Temporarily lock seats
     selectedSeats.forEach((seat) => {
       showData.occupiedSeats[seat] = userId;
     });
-
     showData.markModified('occupiedSeats');
     await showData.save();
 
+    // ✅ Create Stripe Checkout session with 30 mins expiry
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'payment',
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: `Ticket: ${showData.movie.title}`,
+            },
+            unit_amount: Math.floor(amount) * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      success_url: `${origin}/booking?status=success&bookingId=${booking._id}`,
+      cancel_url: `${origin}/booking?status=cancel&bookingId=${booking._id}`,
+      metadata: {
+        bookingId: booking._id.toString(),
+        userId,
+      },
+      expires_at: Math.floor(Date.now() / 1000) + 1800, // 30 mins expiry
+    });
 
-    //stripe gateway initialise
-  
-
+    // ✅ Save Stripe session URL
+    booking.paymentLink = session.url;
+    await booking.save();
 
     return NextResponse.json({
       success: true,
-      message: 'Booked successfully',
-      booking,
+      url: session.url,
+      bookingId: booking._id,
     });
   } catch (error) {
     console.error('Booking error:', error.message);
