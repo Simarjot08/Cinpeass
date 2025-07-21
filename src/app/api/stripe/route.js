@@ -38,7 +38,6 @@
 //     }
 // }
 
-import { buffer } from 'micro';
 import Stripe from 'stripe';
 import Booking from '@/app/lib/models/bookingModel';
 import { connectDB } from '@/app/lib/config/db';
