@@ -6,7 +6,7 @@ import Booking from '@/app/lib/models/bookingModel';
 import Show from '@/app/lib/models/showmodel';
 import { verifyTokenFromCookie } from '@/app/lib/middleware/verifytoken';
 
-// 🔁 Utility: Cancel expired unpaid bookings older than 10 minutes
+// 🔁 Cancel expired unpaid bookings older than 10 minutes
 const cancelExpiredBookings = async (userId) => {
   const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
 
@@ -29,7 +29,7 @@ const cancelExpiredBookings = async (userId) => {
       await show.save();
     }
 
-    await booking.deleteOne(); // ❌ Remove expired booking
+    await booking.deleteOne();
   }
 };
 
@@ -37,19 +37,40 @@ export async function GET(req) {
   await connectDB();
 
   try {
-    // ✅ Extract user ID from cookie token
     const userId = await verifyTokenFromCookie();
 
-    // ✅ Cancel this user's expired unpaid bookings
     await cancelExpiredBookings(userId);
 
-    // ✅ Get updated list of bookings
     const bookings = await Booking.find({ user: userId })
       .populate({
         path: 'show',
-        populate: { path: 'movie' }
+        populate: { path: 'movie' },
       })
       .sort({ createdAt: -1 });
+
+    // 📧 Send email for paid bookings that haven't been emailed yet
+    for (const booking of bookings) {
+      if (booking.isPaid && !booking.emailSent) {
+        try {
+          const emailRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/sendbookingemail`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bookingId: booking._id }),
+          });
+
+          const emailData = await emailRes.json();
+
+          if (emailRes.ok && emailData.success) {
+            booking.emailSent = true;
+            await booking.save();
+          } else {
+            console.error('❌ Failed to send email:', emailData.message || emailData.error);
+          }
+        } catch (err) {
+          console.error('❌ Email sending error:', err.message);
+        }
+      }
+    }
 
     return NextResponse.json({ success: true, bookings });
   } catch (error) {
