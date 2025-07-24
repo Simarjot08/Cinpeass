@@ -1,35 +1,49 @@
-// import Booking from "@/app/lib/models/booking";
 
-// export const getUserBookings=async(req,res)=>{
-//     try{
-//         const user=req.auth().userId;
-//         const bookings=await Booking.find({user}).populate({
-//             path:"show",
-//             populate:{path:"movie"}
-//         }).sort({createdAt:-1})
-//         res.json({success:true,bookings})
 
-//     }catch(error){
-//         console.lerror(error.message);
-//         res.json({success:false,message:error.message});
-//     }
-
-// }
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/app/lib/config/db';
 import Booking from '@/app/lib/models/bookingModel';
 import Show from '@/app/lib/models/showmodel';
-import Movie from '@/app/lib/models/movieModel';
-import { verifyTokenFromCookie } from '@/app/lib/middleware/verifytoken'; // Your verify function
+import { verifyTokenFromCookie } from '@/app/lib/middleware/verifytoken';
+
+// 🔁 Utility: Cancel expired unpaid bookings older than 10 minutes
+const cancelExpiredBookings = async (userId) => {
+  const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+
+  const expiredBookings = await Booking.find({
+    user: userId,
+    isPaid: false,
+    createdAt: { $lt: tenMinutesAgo },
+  }).populate('show');
+
+  for (const booking of expiredBookings) {
+    const show = await Show.findById(booking.show._id);
+    if (show) {
+      booking.bookedSeats.forEach((seat) => {
+        if (show.occupiedSeats[seat]?.toString() === booking.user.toString()) {
+          delete show.occupiedSeats[seat];
+        }
+      });
+
+      show.markModified('occupiedSeats');
+      await show.save();
+    }
+
+    await booking.deleteOne(); // ❌ Remove expired booking
+  }
+};
 
 export async function GET(req) {
   await connectDB();
 
   try {
-    // Get userId from JWT token stored in cookie
+    // ✅ Extract user ID from cookie token
     const userId = await verifyTokenFromCookie();
 
-    // Find bookings for this user, populate nested show -> movie, sorted descending by createdAt
+    // ✅ Cancel this user's expired unpaid bookings
+    await cancelExpiredBookings(userId);
+
+    // ✅ Get updated list of bookings
     const bookings = await Booking.find({ user: userId })
       .populate({
         path: 'show',

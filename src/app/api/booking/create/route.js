@@ -162,7 +162,9 @@ export async function POST(req) {
           quantity: 1,
         },
       ],
-      success_url: `${origin}/booking?status=success&bookingId=${booking._id}`,
+      // success_url: `${origin}/booking?status=success&bookingId=${booking._id}`,
+      success_url: `${origin}/booking/processing?bookingId=${booking._id}`,
+
       cancel_url: `${origin}/booking?status=cancel&bookingId=${booking._id}`,
       metadata: {
         bookingId: booking._id.toString(),
