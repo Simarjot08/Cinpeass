@@ -268,14 +268,24 @@ const handleBooking = async () => {
   }
 
   try {
+    // const res = await fetch('/api/booking/create', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({
+    //     showId: selectedTime.showId,
+    //     selectedSeats,
+    //   }),
+    // });
     const res = await fetch('/api/booking/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        showId: selectedTime.showId,
-        selectedSeats,
-      }),
-    });
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  credentials: 'include',  // 👈 necessary to send cookies
+  body: JSON.stringify({
+    showId: selectedTime.showId,
+    selectedSeats,
+  }),
+});
+  
 
     const data = await res.json();
 
