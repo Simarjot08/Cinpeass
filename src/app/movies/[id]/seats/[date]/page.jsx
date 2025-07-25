@@ -275,6 +275,7 @@ const handleBooking = async () => {
         showId: selectedTime.showId,
         selectedSeats,
       }),
+      credentials:'include',
     });
 
     const data = await res.json();

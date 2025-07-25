@@ -15,7 +15,7 @@ function BookingProcessingInner() {
 
     const interval = setInterval(async () => {
       try {
-        const res = await fetch('/api/user/booking', { cache: 'no-store' });
+        const res = await fetch('/api/user/booking', { cache: 'no-store',credentials:'include' });
         const data = await res.json();
 
         const booking = data.bookings.find(b => b._id === bookingId);
