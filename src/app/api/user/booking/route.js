@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '@/app/lib/config/db';
 import Booking from '@/app/lib/models/bookingModel';
 import Show from '@/app/lib/models/showmodel';
+import Movie from '@/app/lib/models/movieModel';
 import { verifyTokenFromCookie } from '@/app/lib/middleware/verifytoken';
 
 // 🔁 Cancel expired unpaid bookings older than 10 minutes
