@@ -266,10 +266,10 @@ export default function Navbar() {
         <Link className="hover:text-red-400" href="/movies" onClick={() => { scrollTo(0, 0); setIsOpen(false); }}>
           Movies
         </Link>
-        <Link className="hover:text-red-400" href="/" onClick={() => { scrollTo(0, 0); setIsOpen(false); }}>
+        <Link className="hover:text-red-400" href="/theater" onClick={() => { scrollTo(0, 0); setIsOpen(false); }}>
           Theaters
         </Link>
-        <Link className="hover:text-red-400" href="/" onClick={() => { scrollTo(0, 0); setIsOpen(false); }}>
+        <Link className="hover:text-red-400" href="/releases" onClick={() => { scrollTo(0, 0); setIsOpen(false); }}>
           Releases
         </Link>
 
