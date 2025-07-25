@@ -1,4 +1,3 @@
-"use client"
 import React from 'react'
 import Mybooking from '../component/molecule/mybooking'
 function Bookings() {
