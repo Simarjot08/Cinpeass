@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import React, { useEffect, useState } from 'react';
 import Moviecard from '../atom/moviecard';
 import Loading from '../atom/loading';

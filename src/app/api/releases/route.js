@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 
 // https://api.themoviedb.org/3/movie/popular

@@ -1,4 +1,6 @@
 
+
+
 import React from 'react'
 import Releases from '../component/molecule/releases'
 
@@ -25,6 +27,3 @@ function Latest() {
 }
 
 export default Latest
-
-
-
