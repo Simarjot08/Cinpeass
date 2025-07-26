@@ -50,7 +50,7 @@ export async function POST(req) {
 
       cancel_url: `${origin}/booking?status=cancel&bookingId=${booking._id}`,
       metadata: {
-        bookingId: booking._id.toString(),
+          bookingId: booking._id.toString(),
         userId: booking.user.toString(),
       },
       expires_at: Math.floor(Date.now() / 1000) + 1800, // 30 minutes

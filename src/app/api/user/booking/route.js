@@ -85,6 +85,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/app/lib/config/db';
 import Booking from '@/app/lib/models/bookingModel';
+import Movie from '@/app/lib/models/movieModel';
 import Show from '@/app/lib/models/showmodel';
 import { verifyTokenFromCookie } from '@/app/lib/middleware/verifytoken';
 
@@ -152,9 +153,11 @@ export async function GET(req) {
           console.error('❌ Email sending error:', err.message);
         }
       }
-    }
+    }               console.log("Bookings being sent to client:", bookings.map(b => b._id.toString()));
 
-    return NextResponse.json({ success: true, bookings });
+    // return NextResponse.json({ success: true, bookings });
+    return NextResponse.json({ success: true, bookings: bookings || [] });
+
   } catch (error) {
     console.error('Get User Bookings Error:', error.message);
     return NextResponse.json(
