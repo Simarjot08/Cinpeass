@@ -10,7 +10,7 @@ config.autoAddCss = false;
 
 
 export const metadata = {
-  title: 'QuickSeat',
+  title: 'Cinepass',
   description: 'Movie seat booking app',
 };
 
