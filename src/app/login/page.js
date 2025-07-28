@@ -12,26 +12,10 @@ import styles from './login.module.css';
 function LoginPageTemplate() {
      const router = useRouter();
 
-  //    const handleGoogleSignIn = () => {
-  //   const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=http://localhost:3000/api/auth/google/callback&response_type=code&scope=email%20profile`;
-  //   window.location.href = googleUrl;
-  // };
-//   const handleGoogleSignIn = () => {
-//   const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=email%20profile`;
-//   window.location.href = googleUrl;
-// };
-const handleGoogleSignIn = () => {
-  const redirectUri =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000/api/auth/google/callback'
-      : 'https://cinpeass.vercel.app/api/auth/google/callback';
-
-  const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile`;
-
-  window.location.href = googleUrl;
-};
-
-   
+     const handleGoogleSignIn = () => {
+    const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=http://localhost:3000/api/auth/google/callback&response_type=code&scope=email%20profile`;
+    window.location.href = googleUrl;
+  };
 
   const [formData, setFormData] = useState({
     email: '',
