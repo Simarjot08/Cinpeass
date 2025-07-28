@@ -259,6 +259,7 @@ export async function POST(req) {
     await showData.save();
 
     console.log('🪑 Seats locked temporarily in show data.');
+    console.log("📦 Creating session for booking:", booking._id);
 
     // Create Stripe session
     const session = await stripe.checkout.sessions.create({
@@ -284,6 +285,7 @@ export async function POST(req) {
       },
       expires_at: Math.floor(Date.now() / 1000) + 1800, // 30 mins
     });
+  
 
     // Save Stripe session URL
     booking.paymentLink = session.url;
