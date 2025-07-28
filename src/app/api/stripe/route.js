@@ -81,124 +81,35 @@
 // }
 
 
-// import Stripe from 'stripe';
-// import { headers } from 'next/headers';
-// import Booking from '@/app/lib/models/bookingModel';
-// import { connectDB } from '@/app/lib/config/db';
-
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-// export const config = {
-//   api: {
-//     bodyParser: false, // Required to handle raw body
-//   },
-// };
-
-// export async function POST(req) {
-//   console.log('🔥 Stripe webhook called');
-//   await connectDB();
-
-//   // Get raw body as buffer
-//   const rawBody = await req.arrayBuffer();
-//   const bodyBuffer = Buffer.from(rawBody);
-
-//   // ✅ FIX: Await headers
-//   const headersList = await headers();
-//   const sig = headersList.get('stripe-signature');
-
-//   let event;
-
-//   try {
-//     // Verify Stripe signature
-//     event = stripe.webhooks.constructEvent(
-//       bodyBuffer,
-//       sig,
-//       process.env.STRIPE_WEBHOOK_SECRET
-//     );
-//   } catch (err) {
-//     console.error('❌ Webhook signature verification failed:', err.message);
-//     return new Response(`Webhook Error: ${err.message}`, { status: 400 });
-//   }
-
-//   console.log(`📩 Received event type: ${event.type}`);
-
-//   try {
-//     switch (event.type) {
-//       case 'checkout.session.completed': {
-//         const session = event.data.object;
-//         const bookingId = session?.metadata?.bookingId;
-
-//         if (!bookingId) {
-//           console.warn('⚠️ Missing bookingId in session metadata.');
-//           return new Response('Missing bookingId in metadata', { status: 400 });
-//         }
-
-//         // Update booking in DB
-//         await Booking.findByIdAndUpdate(bookingId, {
-//           isPaid: true,
-//           paymentLink: '',
-//         });
-
-//         console.log(`✅ Booking ${bookingId} marked as paid.`);
-
-//         // Trigger confirmation email (fire-and-forget)
-//         fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/sendbookingemail`, {
-//           method: 'POST',
-//           headers: { 'Content-Type': 'application/json' },
-//           body: JSON.stringify({ bookingId }),
-//         })
-//           .then((res) => {
-//             console.log('📩 Email sent status:', res.status);
-//           })
-//           .catch((err) => {
-//             console.error('📩 Email send error:', err.message);
-//           });
-
-//         break;
-//       }
-
-//       default:
-//         console.log(`ℹ️ Unhandled event type: ${event.type}`);
-//     }
-
-//     return new Response(JSON.stringify({ received: true }), { status: 200 });
-//   } catch (error) {
-//     console.error('❌ Error processing webhook:', error);
-//     return new Response('Internal Server Error', { status: 500 });
-//   }
-// }
-
 import Stripe from 'stripe';
 import { headers } from 'next/headers';
 import Booking from '@/app/lib/models/bookingModel';
 import { connectDB } from '@/app/lib/config/db';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-08-16',
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const config = {
   api: {
-    bodyParser: false, // Required to handle raw Stripe webhook body
+    bodyParser: false, // Required to handle raw body
   },
 };
 
 export async function POST(req) {
   console.log('🔥 Stripe webhook called');
-
   await connectDB();
 
   // Get raw body as buffer
   const rawBody = await req.arrayBuffer();
   const bodyBuffer = Buffer.from(rawBody);
 
-  // ✅ FIX: Do NOT await headers
-  const headersList = headers(); // Synchronous
+  // ✅ FIX: Await headers
+  const headersList = await headers();
   const sig = headersList.get('stripe-signature');
 
   let event;
 
   try {
+    // Verify Stripe signature
     event = stripe.webhooks.constructEvent(
       bodyBuffer,
       sig,
@@ -212,35 +123,42 @@ export async function POST(req) {
   console.log(`📩 Received event type: ${event.type}`);
 
   try {
-    if (event.type === 'checkout.session.completed') {
-      const session = event.data.object;
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object;
+        const bookingId = session?.metadata?.bookingId;
 
-      const bookingId = session?.metadata?.bookingId;
+        if (!bookingId) {
+          console.warn('⚠️ Missing bookingId in session metadata.');
+          return new Response('Missing bookingId in metadata', { status: 400 });
+        }
 
-      if (!bookingId) {
-        console.warn('⚠️ Missing bookingId in session metadata.');
-        return new Response('Missing bookingId in metadata', { status: 400 });
+        // Update booking in DB
+        await Booking.findByIdAndUpdate(bookingId, {
+          isPaid: true,
+          paymentLink: '',
+        });
+
+        console.log(`✅ Booking ${bookingId} marked as paid.`);
+
+        // Trigger confirmation email (fire-and-forget)
+        fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/sendbookingemail`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ bookingId }),
+        })
+          .then((res) => {
+            console.log('📩 Email sent status:', res.status);
+          })
+          .catch((err) => {
+            console.error('📩 Email send error:', err.message);
+          });
+
+        break;
       }
 
-      await Booking.findByIdAndUpdate(bookingId, {
-        isPaid: true,
-        paymentLink: '',
-      });
-
-      console.log(`✅ Booking ${bookingId} marked as paid.`);
-
-      // Send booking confirmation email (fire and forget)
-      fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/sendbookingemail`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookingId }),
-      }).then((res) => {
-        console.log('📩 Email sent status:', res.status);
-      }).catch((err) => {
-        console.error('📩 Email send error:', err.message);
-      });
-    } else {
-      console.log(`ℹ️ Unhandled event type: ${event.type}`);
+      default:
+        console.log(`ℹ️ Unhandled event type: ${event.type}`);
     }
 
     return new Response(JSON.stringify({ received: true }), { status: 200 });
