@@ -1,6 +1,5 @@
 
 
-
 import GeminiSuggest from "./geminiSuggest";
 import Herosection from "./herosection";
 import Banner from "./banner";
