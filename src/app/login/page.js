@@ -12,10 +12,7 @@ import styles from './login.module.css';
 function LoginPageTemplate() {
      const router = useRouter();
 
-  //    const handleGoogleSignIn = () => {
-  //   const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=http://localhost:3000/api/auth/google/callback&response_type=code&scope=email%20profile`;
-  //   window.location.href = googleUrl;
-  // };
+
 
 const handleGoogleSignIn = () => {
   const isLocal = typeof window !== 'undefined' && window.location.hostname === 'localhost';
@@ -53,7 +50,7 @@ const handleGoogleSignIn = () => {
       const data = await res.json();
 
       if (res.ok) {
-        // toast.success('Logged in successfully!');
+        
           console.log('Redirecting to:', data.redirectUrl);
         setTimeout(() => router.push(data.redirectUrl), 1500);
       } else {
@@ -66,9 +63,9 @@ const handleGoogleSignIn = () => {
   return (
     <div>  
      <div className={styles.loginBody}>
-      <div className="flex flex-col h-[60%] px-15 py-15 bg-black/80 rounded-md  gap-5 mt-[10%] ">
-     <h1 className="text-center text-4xl font-bold  "> Welcome</h1>
-           <div className="flex gap-7 flex-col mt-5">
+      <div className="flex flex-col h-[60%] lg:px-15 px-10   py-10 lg:py-15 bg-black/80 rounded-md  gap-5 lg:mt-[10%] mt-[28%] ">
+     <h1 className="text-center lg:text-4xl text-3xl font-bold  "> Welcome</h1>
+           <div className="flex gap-5 md:gap-7 flex-col lg:mt-5 mt-2">
   
       <Input name="email" type="email" value={formData.email}  onChange={handleChange} title="Email"/>  
       
@@ -77,8 +74,8 @@ const handleGoogleSignIn = () => {
 
         <button onClick={handleGoogleSignIn} className='text-white px-10 py-2 rounded-lg border-white border-2 hover:bg-green-700 transition-all ease'>Sign in with Google</button>
     </div>
-          {/* <p className="text-gray-400">Don't have account ? <Link className="text-blue-500" href="./signup">Sign Up</Link> </p> */}
-          <p className="text-gray-400">
+          
+          <p className="text-gray-400 ">
   {`Don't have account ? `}<Link className="text-blue-500" href="./signup">Sign Up</Link>
 </p>
 

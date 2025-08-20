@@ -3,7 +3,7 @@ import React from 'react'
 import Theaters from '../component/molecule/theaters'
 
 
-function Theater() {
+function Theaterr() {
   return (
    <div className="relative  moviesbody overflow-hidden">
   <div>
@@ -23,4 +23,4 @@ function Theater() {
   )
 }
 
-export default Theater
+export default Theaterr

@@ -16,7 +16,7 @@ function Bookings() {
 
 </div>
  <Mybooking/>
-
+  
     </div>
   )
 }

@@ -16,8 +16,8 @@ function Banner() {
 
 
   return (
-    <div className='bg-[url("/images/banner-3.jpg")] mt-0 mask-y-from-80%  mask-y-to-100% flex flex-col items-start justify-center gap-4 px-8  md:px-28  sm:px-10 bg-cover bg-center h-screen lg:w-[100%] w-[100%'>
-      <img src="/images/marvellogo.svg" alt="" className='max-h-11 lg:h-11 mt-20' />
+    <div className='bg-[url("/images/banner-3.jpg")] mt-0 mask-y-from-80%  sm:w-[80%]    mask-y-to-100% flex flex-col items-start justify-center gap-4 px-8  md:px-28  bg-cover bg-center h-screen lg:w-[100%] w-[100%]  lg:h-[100%]'>
+      <img src="/images/marvellogo.svg" alt="" className='h-5 lg:h-11 mt-10 lg:mt-20' />
        <h1 className='lg:text-5xl text-2xl md:text-[70px] md:leading-18 font-semibold max-w-110'>Guardians
         <br /> of the Galaxy
        </h1>
@@ -32,7 +32,7 @@ function Banner() {
        </div>
        <p className='max-w-md text-gray-300 text-justify'>In a post-apocalyptic world where cities ride on wheels and consume each other to survive, two people meet in london and try to stop a conspiracy</p>
        
-       <button className='flex items-center gap-1 px-6 py-3 text-md bg-red-500 hover:bg-red-600 hover:scale-[1.05] transition ease hover:shadow-sm rounded-full font-medium cursor-pointer'
+       <button className='flex items-center gap-1 px-6 py-3 mt-5   mb-20 text-md bg-red-500 hover:bg-red-600 hover:scale-[1.05] transition ease hover:shadow-sm rounded-full font-medium cursor-pointer'
         onClick={handleClick}> Explore Movies
             <ArrowRight className='w-5 h-5'/>   
        </button>

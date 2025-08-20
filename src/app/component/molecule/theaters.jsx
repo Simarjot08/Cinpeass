@@ -54,8 +54,11 @@ const Theaters= () => {
   }
 
   return movies.length > 0 ? (
-    <div className="relative my-40 mb-60 px-6 md:px-16 lg:px-40 xl:px-44 min-h-[100vh] bg-blend-lighten">
-      <h1 className="text-lg font-medium my-6">Trending in Theaters</h1>
+    <div className="relative lg:my-40 my-25  mb-60 px-6 md:px-16 lg:px-40 xl:px-44 min-h-[100vh] bg-blend-lighten">
+      {/* <h1 className="text-lg font-medium my-6">Trending in Theaters</h1> */}
+            <h2 className="text-2xl md:text-3xl lg:my-4 lg:mb-5 mb-5 my-2 ml-8 lg:ml-0 font-bold text-yellow-400 animate-pulse drop-shadow-[0_0_3px_#facc15]">
+        🔥 Trending in Theaters
+      </h2>
       <div className="flex flex-wrap max-sm:justify-center gap-8 lg:h-[100%]">
         {movies.map((movie) => (
           <Moviecard movie={movie} key={movie.id || movie._id} />

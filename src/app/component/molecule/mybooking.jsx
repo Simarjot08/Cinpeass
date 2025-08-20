@@ -86,7 +86,7 @@ function Mybooking() {
   if (isLoading) return <Loading />;
 
   return (
-    <div className='relative px-6 md:px-16 lg:px-40 pt-10 md:pt-0 min-h-[80vh]'>
+    <div className='relative px-6 md:px-16 lg:px-40  pb-10 pt-0 lg:pt-5 md:pt-0 min-h-[80vh]'>
       {booking.length === 0 && (
         <p className="text-center text-gray-400 mt-10">No bookings found.</p>
       )}
@@ -122,7 +122,7 @@ function Mybooking() {
 
             <div className='flex flex-col md:items-end md:text-right justify-between p-4'>
               <div className='flex items-center gap-4'>
-                <p className='text-2xl font-semibold mb-3'>${item.amount}</p>
+                <p className=' text-lg lg:text-2xl font-semibold lg:mb-3 mb-0'>$ {item.amount}</p>
 
                 {!item.isPaid ? (
                   <button
@@ -132,7 +132,7 @@ function Mybooking() {
                     Pay Now
                   </button>
                 ) : (
-                  <span className='text-green-400 font-semibold'>Paid</span>
+                  <span className='text-green-400 text-lg font-semibold'>Paid</span>
                 )}
               </div>
 

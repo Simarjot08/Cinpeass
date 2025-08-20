@@ -164,7 +164,7 @@ Only respond with this format. No extra explanation.
             setOpen(true);
             resetState();
           }}
-          className="bg-red-700/80 p-3 px-5 py-2 rounded-md text-xl font-medium hover:bg-red-800 flex items-center gap-3 shadow-lg"
+          className="bg-red-700/80 p-3 px-5 py-2 ml-[14%] rounded-md text-md lg:text-xl font-medium hover:bg-red-800 flex items-center gap-3 shadow-lg"
         >
           <img src="/images/chatbot.png" alt="Chatbot" className="w-12 h-12" />
           Ask Gemini to Suggest Movies
@@ -172,27 +172,27 @@ Only respond with this format. No extra explanation.
       )}
 
       {open && (
-        <div className="flex bg-black/90 text-white rounded-xl shadow-lg border border-red-700 mt-4 max-h-[500px] overflow-auto">
+        <div className="flex bg-black/90 text-white ml-[10%] lg:ml-[0%] rounded-xl shadow-lg border border-red-700 mt-4 max-h-[500px] overflow-auto">
           <div className="p-4 bg-red-800 rounded-l-xl flex justify-center items-start">
             <img src="/images/chatbot.png" alt="Chatbot" className="w-16 h-16" />
           </div>
 
-          <div className="flex-1 p-4 space-y-3">
+          <div className="flex-1 lg:p-4  p-2 space-y-3">
             {!reply ? (
               <>
                 <p className="text-sm text-white">{questions[step]}</p>
-                <div className="flex gap-2">
+                <div className="flex lg:gap-2 gap-1" >
                   <input
                     type="text"
                     value={input}
                     onChange={e => setInput(e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-md text-sm text-white bg-gray-800"
+                    className="flex-1 lg:px-3 px-2 lg:py-2  py-1 rounded-md text-sm text-white bg-gray-800"
                     placeholder="Type your answer..."
                   />
                   <button
                     onClick={handleNext}
                     disabled={loading}
-                    className="bg-primary px-4 py-2 text-sm rounded-md hover:bg-primary-dull disabled:opacity-50"
+                    className="bg-primary lg:px-4 px-3  lg:py-2 py-1 lg:text-sm text-xs rounded-md hover:bg-primary-dull disabled:opacity-50"
                   >
                     {step < 2 ? 'Next' : loading ? 'Thinking...' : 'Get Suggestion'}
                   </button>
@@ -206,11 +206,11 @@ Only respond with this format. No extra explanation.
                     return (
                       <div
                         key={idx}
-                        className="bg-gray-800 p-4 rounded border border-red-600 cursor-pointer hover:bg-gray-700"
+                        className="bg-gray-800 p-2  lg:p-4 rounded border border-red-600 cursor-pointer hover:bg-gray-700"
                         onClick={() => handleSuggestionClick(movieTitle)}
                       >
                         <p className="font-bold text-red-400 mb-1">🎬 Suggestion {idx + 1}</p>
-                        <p className="text-sm text-gray-200">{r.trim()}</p>
+                        <p className="text-sm  text-gray-200">{r.trim()}</p>
                       </div>
                     );
                   }) : (

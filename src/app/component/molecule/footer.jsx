@@ -24,8 +24,8 @@ export default function Footer() {
         <div className="flex flex-wrap justify-center gap-6 text-sm md:mt-2 md:pr-10">
           <Link href="/" className="hover:text-red-400 transition">Home</Link>
           <Link href="/movies" className="hover:text-red-400 transition">Movie</Link>
-          <Link href="/theaters" className="hover:text-red-400 transition">Theater</Link>
-          <Link href="/favourites" className="hover:text-red-400 transition">Favourites</Link>
+          <Link href="/theater" className="hover:text-red-400 transition">Theater</Link>
+          <Link href="/favourite" className="hover:text-red-400 transition">Favourites</Link>
         </div>
       </div>
 

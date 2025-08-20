@@ -120,7 +120,7 @@ export async function POST(req) {
           <li><strong>Date:</strong> ${booking.show?.showDateTime ? new Date(booking.show.showDateTime).toLocaleDateString() : 'N/A'}</li>
           <li><strong>Time:</strong> ${booking.show?.showDateTime ? new Date(booking.show.showDateTime).toLocaleTimeString() : 'N/A'}</li>
           <li><strong>Seats:</strong> ${Array.isArray(booking.bookedSeats) ? booking.bookedSeats.join(', ') : 'N/A'}</li>
-          <li><strong>Total Price:</strong> ₹${booking.amount}</li>
+          <li><strong>Total Price:</strong> $ ${booking.amount}</li>
         </ul>
         <p>Enjoy your show!</p>
         <p>- CinePass Team 🎬</p>

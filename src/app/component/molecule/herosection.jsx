@@ -15,10 +15,6 @@ function Herosection() {
           </div>
         ))}
       </div>
-
-     
-    
-    
     </div>
   )
 }

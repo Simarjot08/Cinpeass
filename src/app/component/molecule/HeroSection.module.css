@@ -111,7 +111,16 @@
   }
 }
 
+@media screen and (max-width:400px) {
+ .banner{
+     height:50vh;
+     margin-top:20%;
+     
+ }
+}
+
 @media screen and (max-width: 767px) {
+
   .slider {
     width: 100px;
     height: 150px;

@@ -1,26 +1,4 @@
-// 'use client';
 
-// import React from 'react';
-
-// function TrailerHeading() {
-//   return (
-//     <div className="text-center my-10 px-4">
-//       <h1 className="text-6xl font-extrabold text-red-800 tracking-wide drop-shadow-lg">
-//         TRAILERS
-//       </h1>
-
-//       <p className="mt-3 text-2xl text-white font-semibold italic tracking-wide">
-//         Unleash the drama before the show begins
-//       </p>
-
-//       <p className="mt-2 text-sm text-gray-400 uppercase tracking-[0.2em]">
-//         Every second tells a story
-//       </p>
-//     </div>
-//   );
-// }
-
-// export default TrailerHeading;
 'use client';
 
 import React, { useEffect, useRef } from 'react';
@@ -57,21 +35,21 @@ function TrailerHeading() {
     <div className="text-center my-10 px-4 overflow-hidden">
       <h1
         ref={headingRef}
-        className="text-6xl font-extrabold text-red-700 tracking-wide drop-shadow-lg animate-pulse-slow"
+        className=" text-3xl lg:text-6xl font-extrabold text-red-700 tracking-wide drop-shadow-lg animate-pulse-slow"
       >
         TRAILERS
       </h1>
 
       <p
         ref={taglineRef}
-        className="mt-3 text-2xl text-white font-semibold italic tracking-wide"
+        className="mt-3  text-lg lg:text-2xl text-white font-semibold italic tracking-wide"
       >
         Unleash the drama before the show begins
       </p>
 
       <p
         ref={sublineRef}
-        className="mt-2 text-sm text-gray-400 uppercase tracking-[0.2em]"
+        className="mt-2  text-md lg:text-sm text-gray-400 uppercase tracking-[0.2em]"
       >
         Every second tells a story
       </p>

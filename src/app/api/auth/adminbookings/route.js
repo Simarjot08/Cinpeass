@@ -34,7 +34,7 @@ export async function GET(req) {
 
     // Fetch all bookings with nested populates
     const bookings = await Booking.find({})
-      .populate('user')
+      .populate('user','email')
       .populate({
         path: 'show',
         populate: { path: 'movie' }

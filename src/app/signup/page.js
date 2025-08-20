@@ -61,17 +61,17 @@ function  SignupTemplate() {
   }
   return (
     <div className={styles.signbody}>
-          <div className="flex flex-col h-[80%] px-15 py-15 bg-black/80 rounded-md  gap-5 mt-[6%]">
+          <div className="flex flex-col hover:border-2 hover:border-white h-[60%] lg:h-[80%] px-10 lg:px-15  py-10 lg:py-15 bg-black/80 rounded-md  lg:gap-5  gap-3 mt-[20%] lg:mt-[6%]">
       
-        <h1 className="text-center text-4xl font-bold ">Sign Up</h1>
-          <div className="flex gap-7 flex-col mt-5">
+        <h1 className="text-center text-3xl lg:text-4xl font-bold ">Sign Up</h1>
+          <div className="flex gap-6 lg:gap-7 flex-col mt-3  lg:mt-5">
 
 
 
 
                     <Input
           name="firstname"
-          title="firstname"
+          title="Firstname"
           value={formData.firstname}
           onChange={handleChange}
           placeholder="Firstname"
@@ -80,7 +80,7 @@ function  SignupTemplate() {
               
                     <Input
           name="lastname"
-          title="lastname"
+          title="Lastname"
           value={formData.lastname}
           onChange={handleChange}
           placeholder="Email"
@@ -114,8 +114,7 @@ function  SignupTemplate() {
           type="password"
         />
 
-        {/* <Button onClick={handleSubmit} title="Create Account"
-        /> */}
+       
         
     <button className="bg-red-500 text-white text-lg  py-2 w-[100%] rounded-md " onClick={handleSubmit} >Sign up</button>
     

@@ -43,7 +43,7 @@ function Moviecard({ movie }) {
     .join(" | ");
 
   return (
-    <div className='flex flex-col justify-between p-3 bg-black/80 rounded-2xl hover:-translate-y-1 transition duration-300 w-66'>
+    <div className='flex flex-col justify-between p-3 bg-black/80 rounded-2xl hover:-translate-y-1  hover:shadow-sm  hover:shadow-white transition duration-300 w-66'>
       {/* <img
         onClick={handleClick}
         src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
@@ -73,7 +73,7 @@ function Moviecard({ movie }) {
           Buy Tickets
         </button>
         <p className='flex items-center gap-1 text-sm text-gray-400 mt-1 pr-1'>
-          <StarIcon className='w-4 h-4 text-primary fill-primary' />
+          <StarIcon className='w-4 h-4 text-yellow-600 fill-yellow-600' />
           {movie.vote_average ? movie.vote_average.toFixed(1) : '0.0'}
         </p>
       </div>
