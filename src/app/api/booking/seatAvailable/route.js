@@ -1,18 +1,4 @@
-// import Show from "@/app/lib/models/showmodel";
-// // function to check availability of selected setas for a movie
-// const checkSeatAvailability=async(ShowerHeadIcon,selectedSeats)=>{
-//     try{
-//       const showData=await Show.findById(showId)
-//       if(!showData) return false;
-//       const occupiedSeats=showData.occupiedSeats;
-//       const isAnySeatTaken=selectedSeats.some(seat=>occupiedSeats[seat]);
-//       return !isAnySeatTaken;
-//     }catch(error){
-//      console.log(error.message);
-//      return false;
-//     }
 
-// }
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/app/lib/config/db';
 import Show from '@/app/lib/models/showmodel';

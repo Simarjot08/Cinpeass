@@ -11,7 +11,7 @@ function Page() {
    const[shows,setShows]=useState([]);
    const[loading,setLoading]=useState(true);
 
-  //  
+   
         const getAllShows = async () => {
   try {
     const res = await fetch('/api/auth/adminshows', {
@@ -19,7 +19,7 @@ function Page() {
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // ✅ Ensures cookies (with JWT) are sent
+      credentials: 'include', 
     });
 
     const data = await res.json();

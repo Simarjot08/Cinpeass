@@ -27,12 +27,10 @@ export async function GET(req) {
   try {
     await connectDB();
 
-    // Await token verification (async function)
+    
     const userId = await verifyTokenFromCookie();
 
-    // Optional: You can check if userId has admin rights here
-
-    // Fetch all bookings with nested populates
+    
     const bookings = await Booking.find({})
       .populate('user','email')
       .populate({

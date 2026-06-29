@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 
-// https://api.themoviedb.org/3/movie/popular
-// // https://api.themoviedb.org/3/movie/upcoming
 
 export async function GET() {
   try {
@@ -10,9 +8,8 @@ export async function GET() {
         Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      // Optional: Set a timeout controller (advanced, not required initially)
-      // signal: controller.signal,
-      next: { revalidate: 60 }, // Caches this request for 60 seconds (optional for better performance)
+      
+      next: { revalidate: 60 }, 
     });
 
     if (!res.ok) {

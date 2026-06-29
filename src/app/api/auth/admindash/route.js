@@ -13,8 +13,6 @@ export async function GET() {
     // Get all paid bookings
     const bookings = await Booking.find({ isPaid: true });
 
-    // Get active shows with future dates & populate movie
-    // const activeShows = await Show.find({ showDateTime: { $gte: new Date() } }).populate('movie');
      
  const shows = await Show.find({ showDateTime: { $gte: new Date() } }).populate('movie');
 
@@ -24,12 +22,12 @@ const movieMap = new Map();
 for (const show of shows) {
   const movie = show.movie;
 
-  // Skip if movie is null or has no poster
+  
   if (!movie || !movie.poster_path) continue;
 
   const movieId = movie._id.toString();
 
-  // Only keep the first show per unique movie
+  
   if (!movieMap.has(movieId)) {
     movieMap.set(movieId, show);
   }

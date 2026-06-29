@@ -9,10 +9,7 @@ function Page() {
   const[bookings,setBookings]=useState([]);
   const[isLoading,setIsLoading]=useState(true);
 
-  // const getAllBookings=async()=>{
-  //    setBookings(dummyBookingData)
-  //    setIsLoading(false);
-  // };
+  
 
   const getAllBookings = async () => {
   try {

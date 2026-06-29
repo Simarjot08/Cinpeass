@@ -14,7 +14,7 @@ console.log("Future shows:", futureShows);
     const shows = await Show.find({
       showDateTime: { $gte: new Date() },
     })
-      .populate('movie') // populate movie info
+      .populate('movie') 
       .sort({ showDateTime: 1 });
 
     // extract unique movies using Set
@@ -22,13 +22,13 @@ console.log("Future shows:", futureShows);
     shows.forEach(show => {
       const movieId = show.movie._id.toString();
       if (!movieMap.has(movieId)) {
-        movieMap.set(movieId, show.movie); // store only unique movie object
+        movieMap.set(movieId, show.movie); 
       }
     });
 
     return NextResponse.json({
       success: true,
-      shows: Array.from(movieMap.values()), // convert map to array of unique movies
+      shows: Array.from(movieMap.values()), 
     });
   } catch (error) {
     console.error('Error fetching shows:', error.message);

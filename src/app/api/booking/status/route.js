@@ -1,4 +1,4 @@
-// /api/booking/status/route.js
+
 import { connectDB } from '@/app/lib/config/db';
 import Booking from '@/app/lib/models/bookingModel';
 

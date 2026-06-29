@@ -1,18 +1,7 @@
-// import Show from "@/app/lib/models/showmodel"
 
-// export const getallshows=async(req,res)=>{
-//     try{
-//         const shows=await Show.find({showDateTime:{$gte:new Date()}}).populate('movie').sort({showDateTime:1})
-//         res.json({success:true,shows})
-//     }
-//     catch(error){
-//         console.log(error);
-//         res.json({success:false,message:error.message})
-//     }
-// }
 
 import { NextResponse } from 'next/server';
-import { connectDB } from '@/app/lib/config/db';  // or your DB connect function
+import { connectDB } from '@/app/lib/config/db';  
 import Show from '@/app/lib/models/showmodel';
 
 export async function GET() {
@@ -23,7 +12,7 @@ export async function GET() {
       .populate('movie')
       .sort({ showDateTime: 1 });
       
-    // ✅ Filter duplicates and movies without poster_path
+  
     const movieMap = new Map();
 
     for (const show of shows) {

@@ -45,7 +45,7 @@ export async function POST(req) {
           quantity: 1,
         },
       ],
-    //   success_url: `${origin}/booking?status=success&bookingId=${booking._id}`,
+  
     success_url: `${origin}/booking/processing?bookingId=${booking._id}`,
 
       cancel_url: `${origin}/booking?status=cancel&bookingId=${booking._id}`,
@@ -53,7 +53,7 @@ export async function POST(req) {
           bookingId: booking._id.toString(),
         userId: booking.user.toString(),
       },
-      expires_at: Math.floor(Date.now() / 1000) + 1800, // 30 minutes
+      expires_at: Math.floor(Date.now() / 1000) + 1800,
     });
 
     booking.paymentLink = session.url;

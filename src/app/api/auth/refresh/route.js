@@ -30,7 +30,7 @@ export async function GET(req) {
     const newAccessToken = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: '15m' }
+      { expiresIn: '45m' }
     );
 
     const response = NextResponse.json({ message: 'Token refreshed' });

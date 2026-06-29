@@ -17,7 +17,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ success: false, message: 'movieId is required' }, { status: 400 });
     }
 
-    // 1. Check if movie exists
+    //  Check if movie exists
     let movie = await Movie.findById(movieId);
     if (!movie) {
       console.log('📦 Movie not found in DB. Fetching from TMDb...');
@@ -69,7 +69,7 @@ export async function GET(request, { params }) {
       console.log('✅ Movie found in DB:', movie.title);
     }
 
-    // 2. Fetch shows
+    //  Fetch shows
     let shows = await Show.find({
       movie: movieId,
       showDateTime: { $gte: new Date() },
@@ -77,7 +77,7 @@ export async function GET(request, { params }) {
       .sort({ showDateTime: 1 })
       .select('showDateTime screen _id showPrice');
 
-    // 3. If no shows found, create dummy shows
+    // If no shows found, create dummy shows
     if (shows.length === 0) {
       console.log('📅 No shows found, adding dummy shows...');
 
@@ -116,7 +116,7 @@ export async function GET(request, { params }) {
         .select('showDateTime screen _id showPrice');
     }
 
-    // 4. Group by date, but limit to first 3 distinct dates
+    //  Group by date, but limit to first 3 distinct dates
     const dateTime = {};
     const uniqueDates = new Set();
 

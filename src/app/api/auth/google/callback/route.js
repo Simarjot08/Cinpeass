@@ -13,7 +13,7 @@ export async function GET(req) {
   }
  
   try {
-    // 1. Exchange code for tokens
+    // Exchange code for tokens
     const { data: tokenRes } = await axios.post('https://oauth2.googleapis.com/token', {
       code,
       client_id: process.env.GOOGLE_CLIENT_ID,
@@ -22,14 +22,14 @@ export async function GET(req) {
       grant_type: 'authorization_code',
     });
  
-    // 2. Get user info
+    //  Get user info
     const { data: googleUser } = await axios.get('https://www.googleapis.com/oauth2/v2/userinfo', {
       headers: { Authorization: `Bearer ${tokenRes.access_token}` },
     });
  
     const { email, name, id: googleId, picture } = googleUser;
  
-    // 3. Connect DB and find/create user
+    //  Connect DB and find/create user
     await connectDB();
     let user = await User.findOne({ email });
 
@@ -43,7 +43,7 @@ export async function GET(req) {
       return NextResponse.json({ error: 'Email registered by password. Please login with password.' }, { status: 400 });
     }
  
-    // 4. Issue JWT tokens
+    //  Issue JWT tokens
     const accessToken = jwt.sign({ userId: user._id, email }, process.env.JWT_SECRET, { expiresIn: '15m' });
     const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
  

@@ -15,29 +15,28 @@ export async function POST(req) {
       return NextResponse.json({ success: false, message: 'Missing tmdbId or title' }, { status: 400 });
     }
 
-    // 1️⃣ Try to find the movie by tmdbId field (not _id!)
+    //  find the movie by tmdbId field
     let movie = null;
     if (tmdbId) {
-      movie = await Movie.findOne({ _id: tmdbId.toString() }); // still okay, as you save _id = tmdbId
+      movie = await Movie.findOne({ _id: tmdbId.toString() }); 
     }
 
-    // 2️⃣ Try by title (case-insensitive match)
+    // Try by title
     if (!movie && title) {
       movie = await Movie.findOne({ title: new RegExp(`^${title}$`, 'i') });
     }
 
-    // 3️⃣ If movie found, return it
+    //  movie found, return it
     if (movie) {
       return NextResponse.json({ success: true, movie });
     }
 
-    // 4️⃣ If not found, use helper to fetch from TMDB
     const movieData = await fetchMovieDetailsFromTMDB(title);
     if (!movieData) {
       return NextResponse.json({ success: false, message: 'TMDB fetch failed' });
     }
 
-    // 5️⃣ Create and save movie
+    // Create and save movie
     const newMovie = new Movie({
       _id: movieData._id,
       ...movieData,
