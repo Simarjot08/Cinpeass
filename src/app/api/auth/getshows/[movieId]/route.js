@@ -7,12 +7,12 @@ import { connectDB } from '@/app/lib/config/db';
 import Movie from '@/app/lib/models/movieModel';
 import Show from '@/app/lib/models/showmodel';
 
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
     await connectDB();
     console.log('✅ MongoDB connected');
 
-    const movieId = params.movieId;
+   const { movieId } = await context.params;
     if (!movieId) {
       return NextResponse.json({ success: false, message: 'movieId is required' }, { status: 400 });
     }
@@ -20,7 +20,7 @@ export async function GET(request, { params }) {
     //  Check if movie exists
     let movie = await Movie.findById(movieId);
     if (!movie) {
-      console.log('📦 Movie not found in DB. Fetching from TMDb...');
+      console.log('Movie not found in DB. Fetching from TMDb...');
 
       const tmdbRes = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=credits`, {
         headers: {
