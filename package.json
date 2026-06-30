@@ -25,7 +25,7 @@
     "lucide-react": "^0.525.0",
     "micro": "^10.0.1",
     "mongoose": "^8.16.1",
-    "next": "15.3.5",
+    "next": "15.3.8",
     "next-video": "^2.2.0",
     "nodemailer": "^7.0.5",
     "nprogress": "^0.2.0",
