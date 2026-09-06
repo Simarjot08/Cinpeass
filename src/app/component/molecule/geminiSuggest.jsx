@@ -544,7 +544,7 @@ Only this format.
       const result = await askGemini(prompt);
       setReply(result.trim());
     } catch (err) {
-      console.warn('Gemini failed, using fallback');
+      console.warn('Gemini failed, using fallback',err);
       setReply(getSmartSuggestions(updated));
     } finally {
       setLoading(false);
