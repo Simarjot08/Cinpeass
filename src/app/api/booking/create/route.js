@@ -28,8 +28,6 @@ export async function POST(req) {
     const { showId, selectedSeats } = body;
     const origin = req.headers.get('origin');
 
-    console.log('👉 Booking request by user:', userId);
-    console.log('🎟️ Show ID:', showId, 'Seats:', selectedSeats);
 
     const showData = await Show.findById(showId).populate('movie');
     if (!showData) throw new Error('Show not found');
@@ -56,8 +54,6 @@ export async function POST(req) {
 
     await booking.save(); // Make sure booking is saved before proceeding
 
-    console.log('✅ Booking saved:', booking._id);
-
     // Temporarily lock seats
     selectedSeats.forEach((seat) => {
       showData.occupiedSeats[seat] = userId;
@@ -65,7 +61,7 @@ export async function POST(req) {
     showData.markModified('occupiedSeats');
     await showData.save();
 
-    console.log('🪑 Seats locked temporarily in show data.');
+  
 
     // Create Stripe session
     const session = await stripe.checkout.sessions.create({
@@ -96,8 +92,6 @@ export async function POST(req) {
     booking.paymentLink = session.url;
     await booking.save();
 
-    console.log('💳 Stripe session created:', session.id);
-    console.log('🔗 Payment link saved to booking.');
 
     return NextResponse.json({
       success: true,

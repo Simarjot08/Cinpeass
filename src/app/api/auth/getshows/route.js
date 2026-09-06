@@ -10,7 +10,6 @@ export async function GET() {
   try {
     const now = new Date();
 const futureShows = await Show.find({ showDateTime: { $gte: now } });
-console.log("Future shows:", futureShows);
     const shows = await Show.find({
       showDateTime: { $gte: new Date() },
     })

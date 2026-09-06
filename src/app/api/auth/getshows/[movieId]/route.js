@@ -10,7 +10,7 @@ import Show from '@/app/lib/models/showmodel';
 export async function GET(request, context) {
   try {
     await connectDB();
-    console.log('✅ MongoDB connected');
+
 
    const { movieId } = await context.params;
     if (!movieId) {
@@ -20,7 +20,6 @@ export async function GET(request, context) {
     //  Check if movie exists
     let movie = await Movie.findById(movieId);
     if (!movie) {
-      console.log('Movie not found in DB. Fetching from TMDb...');
 
       const tmdbRes = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=credits`, {
         headers: {
@@ -64,9 +63,8 @@ export async function GET(request, context) {
         runtime: tmdbData.runtime,
       });
 
-      console.log('🎬 Movie saved to DB:', movie.title);
     } else {
-      console.log('✅ Movie found in DB:', movie.title);
+      console.log(movie.title);
     }
 
     //  Fetch shows
@@ -79,8 +77,7 @@ export async function GET(request, context) {
 
     // If no shows found, create dummy shows
     if (shows.length === 0) {
-      console.log('📅 No shows found, adding dummy shows...');
-
+  
       const randomTimes = ['10:30', '13:45', '17:00', '20:15'];
       const dummyShows = [];
 
@@ -105,7 +102,7 @@ export async function GET(request, context) {
       }
 
       await Show.insertMany(dummyShows);
-      console.log('✅ Dummy shows inserted.');
+
 
       // Re-fetch shows
       shows = await Show.find({
@@ -159,7 +156,6 @@ export async function GET(request, context) {
     });
 
   } catch (error) {
-    console.error('🔥 Error in GET /getshows/:movieId:', error.message);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 }

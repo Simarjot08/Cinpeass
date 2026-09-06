@@ -24,7 +24,6 @@ function Page() {
     const data = await res.json();
 
     if (data.success) {
-      console.log(data.bookings)
       setBookings(data.bookings);
     } else {
       console.error(data.message);

@@ -1,22 +1,3 @@
-// import Booking from "@/app/lib/models/booking"
-
-// export const getAllBookings=async(req,res)=>{
-//     try{
-
-//         const bookings=await Booking.find({}).populate('user').populate({
-//             path:"show",
-//             populte:{path:"movie"}
-//         }).sort({createdAt:-1})
-//         res.json({success:true,bookings})
-
-//     }
-//     catch(error){
-// console.log(error);
-// res.json({success:false,message:error.message})
-//     }
-// }
-
-
 
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/app/lib/config/db';          // Your DB connection

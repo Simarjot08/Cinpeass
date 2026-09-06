@@ -29,7 +29,6 @@ function  SignupTemplate() {
   };
 
   const handleSubmit = async () => {
-    console.log("in handle");
     if (formData.password !== formData.confirmPassword) {
       toast.error('Passwords do not match');
       return;

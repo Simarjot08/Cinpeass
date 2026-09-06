@@ -24,7 +24,7 @@ export async function POST(req) {
       return new Response(JSON.stringify({ success: false, message: 'Booking or user email not found' }), { status: 400 });
     }
 
-    console.log(`📧 Sending email to ${booking.user.email} for booking ID ${booking._id}`);
+
 
     // Setup Nodemailer transport 
     const transporter = nodemailer.createTransport({

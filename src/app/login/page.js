@@ -39,7 +39,7 @@ const handleGoogleSignIn = () => {
 
   const handleSubmit = async () => {
     try {
-      console.log("button clicked");
+  
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,7 +51,6 @@ const handleGoogleSignIn = () => {
 
       if (res.ok) {
         
-          console.log('Redirecting to:', data.redirectUrl);
         setTimeout(() => router.push(data.redirectUrl), 1500);
       } else {
         toast.error(data.error || ' Invalid credentials');

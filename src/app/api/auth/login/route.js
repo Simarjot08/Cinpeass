@@ -21,8 +21,7 @@ export async function POST(req) {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.log(password);
-      console.log(user.password);
+
       return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
     }
 
@@ -44,7 +43,7 @@ export async function POST(req) {
     user.refreshTokens.push(refreshToken);
     await user.save();
 
-    console.log("User isAdmin status:", user.isAdmin);
+
 
     const response = NextResponse.json(
       { message: 'Login successful',

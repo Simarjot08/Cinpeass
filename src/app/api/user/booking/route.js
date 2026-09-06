@@ -153,7 +153,7 @@ export async function GET(req) {
           console.error('❌ Email sending error:', err.message);
         }
       }
-    }               console.log("Bookings being sent to client:", bookings.map(b => b._id.toString()));
+    }             
 
     // return NextResponse.json({ success: true, bookings });
     return NextResponse.json({ success: true, bookings: bookings || [] });

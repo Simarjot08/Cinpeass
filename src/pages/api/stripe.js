@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  console.log(`📩 Stripe event: ${event.type}`);
+
 
   try {
     if (event.type === 'checkout.session.completed') {
@@ -50,8 +50,6 @@ export default async function handler(req, res) {
         paymentLink: '',
       });
 
-      console.log(`✅ Booking ${bookingId} marked as paid.`);
-
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/sendbookingemail`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -61,7 +59,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ received: true });
   } catch (err) {
-    console.error('❌ Error in webhook handler:', err);
+    console.error(' Error in webhook handler:', err);
     return res.status(500).end('Internal Server Error');
   }
 }
